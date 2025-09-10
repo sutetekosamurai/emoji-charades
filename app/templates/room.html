@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Room: {{ room.code }}</h1>
+
+<section class="card">
+  <h2>参加者</h2>
+  <div id="players"
+       hx-get="/rooms/{{ room.code }}/players"
+       hx-trigger="load, every 1s"
+       hx-swap="innerHTML">
+    {% include "_players.html" %}
+  </div>
+</section>
+
+<section class="card">
+  {% if is_host %}
+    <form method="post" action="/rooms/{{ room.code }}/start">
+      <button type="submit">Start Game</button>
+    </form>
+  {% endif %}
+
+  {% if room.status.value == "hint" %}
+    <p><a href="/rooms/{{ room.code }}/hint">→ ヒント入力へ</a></p>
+  {% endif %}
+  <p><a href="/">← ロビーに戻る</a></p>
+</section>
+
+<div hx-get="/rooms/{{ room.code }}/phase?at=lobby" hx-trigger="load, every 2s" hx-swap="none"></div>
+
+{% endblock %}

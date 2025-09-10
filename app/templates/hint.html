@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Hints — Room {{ room.code }}</h1>
+
+<section class="card">
+  <h2>あなたの絵文字を投稿</h2>
+  {% if my_topic %}
+  <p>あなたのお題：<strong>{{ my_topic }}</strong></p>
+  {% endif %}
+
+  <form method="post" action="/rooms/{{ room.code }}/hint">
+    {% if me %}
+    <p>あなた：<strong>{{ me.name }}</strong></p>
+    {% else %}
+    <label>ニックネーム</label>
+    <input type="text" name="name" required>
+    {% endif %}
+
+    <label>ヒント（絵文字）</label>
+    <input type="text" name="emoji" placeholder="😀😎🔥" required maxlength="16">
+
+    <button type="submit">送信</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>みんなのヒント</h2>
+  <div id="hints"
+     hx-get="/rooms/{{ room.code }}/hints"
+     hx-trigger="load, every 2s"
+     hx-swap="innerHTML">
+  <!-- 初期表示をサーバ側の hint_page で描いてもOK -->
+  </div>
+</section>
+
+{% if is_host and (room.status.value if room.status else room.status) == 'hint' %}
+<section class="card">
+  <form hx-post="/rooms/{{ room.code }}/lock_hints" hx-swap="none">
+    <button class="btn">ヒント受付終了 → 投票へ</button>
+  </form>
+</section>
+{% endif %}
+
+<div id="clock"
+     hx-get="/rooms/{{ room.code }}/clock"
+     hx-trigger="load, every 1s"
+     hx-swap="innerHTML">
+  <!-- 初回プレースホルダ -->
+  <span class="countdown">… 秒</span>
+</div>
+
+<div hx-get="/rooms/{{ room.code }}/phase?at=hint" hx-trigger="load, every 2s" hx-swap="none"></div>
+{% endblock %}

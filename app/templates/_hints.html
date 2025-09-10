@@ -1,0 +1,10 @@
+{# app/templates/_hints.html #}
+<ul class="hints">
+  {% if hints and hints|length > 0 %}
+    {% for h in hints %}
+      <li class="hint-item">{{ h.content_emoji }}</li>
+    {% endfor %}
+  {% else %}
+    <li class="hint-empty">まだヒントはありません</li>
+  {% endif %}
+</ul>

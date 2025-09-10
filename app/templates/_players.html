@@ -1,0 +1,7 @@
+<ul class="list">
+    {% for p in players %}
+    <li>{{ "★" if p.is_host else "" }}{{ p.name }} (score: {{ p.score }})</li>
+    {% else %}
+    <li>まだ参加者はいません</li>
+    {% endfor %}
+</ul>

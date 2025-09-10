@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Lobby</h1>
+
+<section class="card">
+  <h2>部屋を作成（ホスト）</h2>
+  <form method="post" action="/rooms">
+    <label>ニックネーム</label>
+    <input name="name" required maxlength="20" />
+    <button type="submit">Create Room</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>参加（コード入力）</h2>
+  <form method="post" action="/join">
+    <label>Room Code</label>
+    <input type="text" name="code" pattern="[A-Z0-9]{6}" required />
+    <label>ニックネーム</label>
+    <input type="text" name="name" required maxlength="20" />
+    <button type="submit">Join</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,80 @@
+<link rel="stylesheet"
+      href="{{ url_for('static', path='/css/result.css') }}?v={{ round.id if round else 0 }}">
+{% extends "base.html" %}
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', path='/css/result.css') }}?v={{ round.id if round else 0 }}">
+{% endblock %}
+
+{% block content %}
+<div class="result-wrap">
+  {% if wolf_won %}
+    <div class="result-hero wolf">
+      <div class="icon">🐺</div>
+      <div>
+        <div class="title">ウルフの勝ち！</div>
+        <div class="sub">正解者 0 名。ウルフは <strong>{{ spy.name if spy else '—' }}</strong>。</div>
+      </div>
+    </div>
+  {% else %}
+    <div class="result-hero citizen">
+      <div class="icon">👥</div>
+      <div>
+        <div class="title">市民の勝ち！</div>
+        <div class="sub">正解者 {{ correct_voters|length }} 名。ウルフは <strong>{{ spy.name if spy else '—' }}</strong>。</div>
+      </div>
+    </div>
+  {% endif %}
+
+  <section class="result-grid">
+    {% for p in players %}
+      {% set is_wolf = (spy and p.id == spy.id) %}
+      <article class="card {% if is_wolf %}is-wolf{% endif %}">
+        <header class="head">
+          <div class="name">{{ p.name }}</div>
+          <span class="role">{% if is_wolf %}🐺 ウルフ{% else %}👥 市民{% endif %}</span>
+        </header>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="label">今回の得票</div>
+            <div class="val">{{ tally.get(p.id, 0) }}</div>
+          </div>
+          <div class="stat">
+            <div class="label">累計スコア</div>
+            <div class="val">{{ p.score }}</div>
+          </div>
+        </div>
+
+        {% if is_wolf and wolf_won %}
+          <div class="delta">+3</div>
+        {% elif correct_voters and (p.id in correct_voters) %}
+          <div class="delta">+1</div>
+        {% endif %}
+
+        <div class="badges">
+          {% if is_wolf and wolf_won %}<span class="tag">逃げ切りボーナス</span>{% endif %}
+          {% if not is_wolf and correct_voters and (p.id in correct_voters) %}<span class="tag">正解！</span>{% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  </section>
+
+  <!-- 任意：投票一覧（見やすいサマリ） -->
+  {% if vote %}
+  <section class="table">
+    <table>
+      <thead><tr><th>投票者</th><th>投票先</th></tr></thead>
+      <tbody>
+        {% for v in vote %}
+          <tr>
+            <td>{{ (players | selectattr('id','equalto', v.voter_id) | first).name }}</td>
+            <td>{{ (players | selectattr('id','equalto', v.target_player_id) | first).name }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  {% endif %}
+</div>
+
+{% endblock %}

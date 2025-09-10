@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Vote: {{ room.code }}</h1>
+
+{% if my_topic %}
+<p>あなたのお題：<strong>{{ my_topic }}</strong></p>
+{% endif %}
+
+<section class="card">
+  <h2>ヒント一覧</h2>
+  <ul>
+    {% for h in hints %}
+      <li>
+        {# ヒント出した人の名前を表示（簡易版） #}
+        {{ (players | selectattr('id', 'equalto', h.player_id) | list | first).name if players else '' }} :
+        {{ h.content_emoji }}
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section class="card">
+  <h2>投票する</h2>
+  {% if can_vote %}
+    <form method="post" action="/rooms/{{ room.code }}/vote">
+      <select name="target_player_id" required>
+        <option value="">-- 選択 --</option>
+        {% for p in candidates %}
+          <option value="{{ p.id }}">{{ p.name }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">投票</button>
+    </form>
+  {% else %}
+    <p class="text-muted">この部屋に参加していないため投票できません。</p>
+  {% endif %}
+</section>
+
+{% if is_host %}
+<section class="card">
+  <form method="post" action="/rooms/{{ room.code }}/close_vote">
+    <button type="submit">投票締め切り → 結果</button>
+  </form>
+</section>
+{% endif %}
+
+<div hx-get="/rooms/{{ room.code }}/phase?at=vote" hx-trigger="load, every 2s" hx-swap="none"></div>
+
+<div id="clock"
+     hx-get="/rooms/{{ room.code }}/clock"
+     hx-trigger="load, every 1s"
+     hx-swap="innerHTML">
+  <!-- 初回プレースホルダ -->
+  <span class="countdown">… 秒</span>
+</div>
+
+<div hx-get="/rooms/{{ room.code }}/phase?at=vote"
+     hx-trigger="load, every 2s"
+     hx-swap="none"></div>
+
+<p><a href="/">← ロビーへ</a></p>
+{% endblock %}
