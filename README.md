@@ -6,7 +6,8 @@ FastAPI + SQLModel/SQLAlchemy + Jinja2 + htmx で作った、ブラウザだけ�
 ---
 
 ## Demo
-<video src="./static/demo.mp4" controls width="720" playsinline></video>
+[▶ MP4で見る](./static/demo.mp4)
+![demo](./static/demo.gif)
 
 
 ## Features
@@ -22,9 +23,9 @@ FastAPI + SQLModel/SQLAlchemy + Jinja2 + htmx で作った、ブラウザだけ�
 ## How to Play（遊び方）
 1. ロビーを作成してルームコードを共有
 2. 参加者は名前を入力して同じルームに参加
-3. それぞれが**絵文字（ヒント）**を投稿 → ホストが締切（lock）
-4. 表示されたヒントを見て**ウルフが誰か**投票
-5. 結果表示（スコア加算）→ **「次のゲームへ」**ボタンで連戦
+3. それぞれが **絵文字（ヒント）** を投稿 → ホストが締切（lock）
+4. 表示されたヒントを見て **ウルフが誰か** 投票
+5. 結果表示（スコア加算）→ **「次のゲームへ」** ボタンで連戦
 
 ---
 
@@ -185,7 +186,7 @@ emoji-charades/
 ---
 
 ## License
-- あるいは **No license**（閲覧のみ用途）
+- **No license**（閲覧のみ用途）
 
 ---
 
