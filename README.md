@@ -31,10 +31,18 @@ FastAPI + SQLModel/SQLAlchemy + Jinja2 + htmx で作った、ブラウザだけ�
 ## Architecture
 ```mermaid
 flowchart LR
-  B[Browser (htmx)] -- HTTP --> A[FastAPI]
-  A -- ORM --> D[(SQLModel / DB)]
-  A <-- templates --> T[Jinja2]
+  B["Browser (htmx)"]
+  A["FastAPI"]
+  D["SQLModel / DB"]
+  T["Jinja2"]
+
+  B -->|HTTP| A
+  A -->|ORM| D
+  A <-->|templates| T
+
 ```
+
+---
 
 ### ER（概念モデル）
 ```mermaid
@@ -46,11 +54,39 @@ erDiagram
   PLAYER ||--o{ HINT : writes
   PLAYER ||--o{ VOTE : casts
 
-  ROOM { int id PK, string code, int round, datetime hint_deadline, datetime vote_deadline, string status }
-  PLAYER { int id PK, string name, bool is_host, int score, int room_id FK }
-  ROUND { int id PK, int room_id FK, int number }
-  HINT { int id PK, int round_id FK, int player_id FK, string content_emoji }
-  VOTE { int id PK, int round_id FK, int voter_id FK, int target_player_id }
+  ROOM {
+    int id PK
+    string code
+    int round
+    datetime hint_deadline
+    datetime vote_deadline
+    string status
+  }
+  PLAYER {
+    int id PK
+    string name
+    bool is_host
+    int score
+    int room_id FK
+  }
+  ROUND {
+    int id PK
+    int room_id FK
+    int number
+  }
+  HINT {
+    int id PK
+    int round_id FK
+    int player_id FK
+    string content_emoji
+  }
+  VOTE {
+    int id PK
+    int round_id FK
+    int voter_id FK
+    int target_player_id
+  }
+
 ```
 
 ---
@@ -85,11 +121,15 @@ python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 # → http://127.0.0.1:8000  /  API: http://127.0.0.1:8000/docs
 ```
 
+---
+
 **Git Bash を使う場合**（有効化コマンドのみ異なる）
 ```bash
 source .venv/Scripts/activate
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
+
+---
 
 **macOS / Linux**（参考）
 ```bash
@@ -153,7 +193,3 @@ emoji-charades/
 - FastAPI, SQLModel, htmx, Jinja2
 
 ---
-
-## Author
-- GitHub: https://github.com/sutetekosamurai
-
