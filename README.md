@@ -6,8 +6,11 @@ FastAPI + SQLModel/SQLAlchemy + Jinja2 + htmx で作った、ブラウザだけ�
 ---
 
 ## Demo
-[▶ MP4で見る](./static/demo.mp4)
 ![demo](./static/demo.gif)
+
+
+
+[▶ MP4で見る](./static/demo.mp4)
 
 
 ## Features
