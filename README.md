@@ -91,7 +91,7 @@ erDiagram
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 - **Backend**: FastAPI, SQLModel/SQLAlchemy
 - **Frontend**: Jinja2, htmx
 - **Session**: Starlette SessionMiddleware
@@ -99,7 +99,7 @@ erDiagram
 
 ---
 
-## 🚀 Quick Start (Local)
+## Quick Start (Local)
 > **Windows PowerShell 推奨**。`python 3.12` をインストール済み前提。
 
 ```powershell
@@ -142,7 +142,7 @@ python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 
 ---
 
-## 🔐 Configuration
+## Configuration
 - `.env` を作成して環境変数を設定（**コミットしない**）
 
 ```
@@ -155,7 +155,7 @@ SECRET_KEY=changeme
 
 ---
 
-## 📁 Project Structure（例）
+## Project Structure（例）
 ```
 emoji-charades/
 ├─ app/                # FastAPI エンドポイント / 依存関数
@@ -169,7 +169,7 @@ emoji-charades/
 
 ---
 
-## 🧭 Roadmap
+## Roadmap
 - お題辞書（topic）
 - 匿名投票モード / 投票演出
 - 最終結果ページの演出と履歴
@@ -177,19 +177,19 @@ emoji-charades/
 
 ---
 
-## 📝 Notes
+## Notes
 - セッション Cookie は `HttpOnly` / `SameSite`（本番は `secure`）を推奨
 - 複数インスタンス運用を想定し、**状態はDBで一元管理**
 - ヘルスチェック用に `/ping` を用意（デプロイ時の監視に使用）
 
 ---
 
-## 📜 License
+## License
 - あるいは **No license**（閲覧のみ用途）
 
 ---
 
-## 🙌 Acknowledgements
+## Acknowledgements
 - FastAPI, SQLModel, htmx, Jinja2
 
 ---
